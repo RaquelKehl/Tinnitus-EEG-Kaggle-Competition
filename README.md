@@ -1,70 +1,67 @@
-# Tinnitus-EEG-Kaggle-Competition
+# Tinnitus EEG Kaggle Competition – Modellvergleich
 
 Dieses Repository enthält **zwei parallele Pipelines** für einen fairen Vergleich zwischen:
 - **Pipeline A**: XGBoost + LightGBM Ensemble
 - **Pipeline B**: TabPFN (Tabular Foundation Model)
 
-Ziel ist es, das Modell mit der höchsten Accuracy für die Kaggle-Submission zu finden.
+Ziel ist es, das Modell mit der höchsten Accuracy zu identifizieren und die finale `submission.csv` für die Kaggle-Competition zu generieren.
 
 ### Repo-Struktur
-```
+```text
+tinnitus-comparison/
+├── pipeline_xgboost_lightgbm.py   # Pipeline A
+├── pipeline_tabpfn.py             # Pipeline B
+├── decision_script.py             # Finale Entscheidung & Submission-Generierung
+├── config.yaml
+├── requirements.txt
+├── src/
+│   ├── load_features.py
+│   └── utils.py
+├── data/processed/                # ← Hier deine 5 Feature-Dateien + labels.csv ablegen
+├── models/
+└── reports/                       # Ergebnisse, Plots, JSONs
+Voraussetzungen
+Deine 5 Feature-Dateien (z.B. features_pow_freq_bands_rest.csv, etc.) und die labels.csv müssen im Ordner data/processed/ liegen.
 
-tinnitus-comparison/ ├── pipeline_xgboost_lightgbm.py # Pipeline A ├── pipeline_tabpfn.py # Pipeline B ├── decision_script.py # Finale Entscheidung ├── config.yaml ├── requirements.txt ├── src/ │ ├── load_features.py │ └── utils.py ├── data/processed/ # ← Hier deine 5 Feature-Dateien + labels.csv ├── models/ └── reports/ # Ergebnisse, Plots, JSONs
-text
+Wichtig: Die labels.csv muss mindestens die Spalten subject_id und tinnitus (Target-Variable) enthalten.
 
-````
-### Installation
+Installation
+Es wird empfohlen, ein virtuelles Environment (z.B. mit venv oder conda) zu verwenden. Installiere danach die Abhängigkeiten:
 
-```bash
+Bash
 pip install -r requirements.txt
-````
-
 Ausführungsreihenfolge (wichtig!)
+Führe die Skripte zwingend in dieser Reihenfolge aus:
 
-1. Pipeline A ausführen
-   Bash
+Pipeline A ausführen:
 
-   ```
-   python pipeline_xgboost_lightgbm.py
-   ```
+Bash
+python pipeline_xgboost_lightgbm.py
+Pipeline B ausführen:
 
-2. Pipeline B ausführen
-   Bash
+Bash
+python pipeline_tabpfn.py
+Finale Entscheidung treffen:
 
-   ```
-   python pipeline_tabpfn.py
-   ```
-
-3. Finale Entscheidung treffen
-   Bash
-
-   ```
-   python decision_script.py
-   ```
-
+Bash
+python decision_script.py
 Das decision_script.py vergleicht beide Modelle automatisch und entscheidet:
 
-* Entweder wird Pipeline A (XGBoost + LightGBM) genommen, oder
+Entweder wird Pipeline A (XGBoost + LightGBM) genommen, oder
 
-* Es wird ein Bagging-Ensemble aus beiden Modellen empfohlen.
+es wird ein Bagging-Ensemble aus beiden Modellen empfohlen.
+
+Zusätzlich generiert das Skript die finale submission.csv für den Kaggle-Upload.
 
 Ergebnisse
-Nach dem Durchlauf findest du in reports/:
+Nach dem Durchlauf findest du im Ordner reports/ detaillierte Auswertungen:
 
-* results_xgboost_lightgbm.json
+results_xgboost_lightgbm.json & results_tabpfn.json
 
-* results_tabpfn.json
+final_decision.json
 
-* final_decision.json
+Confusion Matrices
 
-* Confusion Matrices
+SHAP-Plots (XGBoost)
 
-* SHAP-Plots (XGBoost)
-
-* Top-20 Feature Importance (TabPFN)
-
-Voraussetzungen
-
-* Deine 5 Feature-Dateien (features_*.csv / .h5) und labels.csv müssen im Ordner data/processed/ liegen.
-
-* labels.csv muss mindestens die Spalten subject_id und tinnitus enthalten.
+Top-20 Feature Importance (TabPFN)
