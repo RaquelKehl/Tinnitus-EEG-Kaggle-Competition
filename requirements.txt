@@ -1,0 +1,11 @@
+pandas
+numpy
+scikit-learn
+xgboost
+lightgbm
+tabpfn>=2.5
+shap
+hydra-core
+matplotlib
+seaborn
+tqdm

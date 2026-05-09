@@ -1,0 +1,12 @@
+tinnitus-comparison/
+├── config.yaml
+├── requirements.txt
+├── pipeline_xgboost_lightgbm.py      # ← zuerst ausführen
+├── pipeline_tabpfn.py                # ← danach ausführen
+├── decision_script.py                # ← am Ende ausführen
+├── src/
+│   ├── load_features.py
+│   └── utils.py
+├── data/processed/                   # ← deine 5 Feature-Dateien + labels.csv
+├── models/
+└── reports/

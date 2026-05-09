@@ -1,0 +1,21 @@
+data:
+  feature_dir: "data/processed"
+  feature_files:
+    - "features_pow_freq_bands_rest.csv"
+    - "features_sensor_space_connectivity_rest.csv"
+    - "features_source_space_connectivity_rest.csv"
+    - "features_source_space_power_rest.csv"
+    - "features_spect_entropy_rest.csv"
+  labels_file: "data/processed/labels.csv"
+
+cv:
+  outer_splits: 10
+  random_state: 42
+
+xgboost:
+  n_estimators: 400
+  learning_rate: 0.03
+  max_depth: 4
+
+tabpfn:
+  n_estimators: 100
